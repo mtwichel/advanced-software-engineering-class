@@ -1,0 +1,56 @@
+model Problem3
+
+-- classes
+
+class Person
+attributes
+  name:String
+  age:Integer
+  salary:Real
+operations
+  raiseSalary(rate:Real):Real
+    begin
+      self.salary := rate;
+      result := self.salary;
+    end
+end
+
+class Company
+attributes
+  name:String
+  location:String
+operations
+  hire(p:Person)
+    begin
+      insert(p, self) into WorksFor;
+    end
+  fire(p:Person)
+    begin
+      delete(p, self) from WorksFor;
+    end
+end
+
+-- associations
+
+association WorksFor between
+  Person[0..*] role employee
+  Company[0..1] role employer
+end
+
+-- constraints
+
+constraints
+--hire Constraint
+context Company::hire(p:Person)
+pre: employee -> excludes(p)
+post: employee -> includes(p)
+
+--fire constraint
+context Company::fire(p:Person)
+pre: employee -> includes(p)
+post: employee -> excludes(p)
+
+--raiseSalary constraint
+context Person::raiseSalary(rate:Real):Real
+pre: self.salary > 0
+post: self.salary > self.salary@pre
