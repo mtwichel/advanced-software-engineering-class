@@ -16,8 +16,8 @@
 -- Class operations
 !c1.hire(e1)
 !c1.hire(e2)
-!c1.hire(e1) -- This one breaks because e1 is already hired
+-- !c1.hire(e1) -- This one breaks because e1 is already hired
 !c1.fire(e1)
-!c1.fire(e1) -- This one breaks because e1 is already fired
+-- !c1.fire(e1) -- This one breaks because e1 is already fired
 !e2.raiseSalary(50000)
-!e2.raiseSalary(40000) -- This breaks because the new salary will be lower than the old one
+-- !e2.raiseSalary(40000) -- This breaks because the new salary will be lower than the old one
