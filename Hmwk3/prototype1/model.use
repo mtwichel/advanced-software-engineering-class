@@ -4,9 +4,24 @@
  * 02/24/2020
  */
 model ourFPS
-  class entity
+
+  enum Level {recruit, basic, master, grandmaster, godtier}
+
+  class Entity
     attributes
       health: Integer
       name: String
-      level:
     operations
+  end
+
+
+  class NonPlayableCharacter < Entity
+    attributes
+    operations
+  end
+
+-- associations
+association enemies between
+  [0..*] Player role enemies
+  [0..*] NonPlayableCharacter role enemies
+end
