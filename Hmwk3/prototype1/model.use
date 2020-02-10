@@ -1,0 +1,12 @@
+/* Model created by Brady Cornett and Marcus Twichel
+ * Advanced Software Engineering
+ * Homework 3
+ * 02/24/2020
+ */
+model ourFPS
+  class entity
+    attributes
+      health: Integer
+      name: String
+      level:
+    operations
