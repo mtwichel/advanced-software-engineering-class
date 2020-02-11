@@ -19,25 +19,26 @@ model ourFPS
     operations
       attack(target:Entity)
         begin
-          target.recieveDamage(this.weapon.damage);
+          target.recieveDamage(self.weapon.damage);
         end
       move(dx: Integer, dy: Integer)
         begin
-          this.xPosition := xPosition + dx;
-          this.yPosition := yPosition + dy;
+          self.xPosition := self.xPosition + dx;
+          self.yPosition := self.yPosition + dy;
         end
       seePlayer(player:Player)
         begin
-          insert (self, player) into enemies;
+          insert (self, player) into enemiesAssociation;
         end
       loosePlayer(player:Player)
         begin
-          delete (self, player) into enemies;
+          delete (self, player) from enemiesAssociation;
         end
       recieveDamage(damage: Integer)
         begin
-          this.health := this.health - damage;
+          self.health := self.health - damage;
         end
+  end
 
   class Player < Entity
     attributes
@@ -58,9 +59,9 @@ model ourFPS
   end
 
 -- associations
-association enemies between
-  Player[0..*] role enemies
-  NonPlayableCharacter[0..*] role enemies
+association enemiesAssociation between
+  Entity[0..*] role enemies1
+  Entity[0..*] role enemies2
 end
 
 association entityWeapon between
