@@ -7,6 +7,7 @@ model ourFPS
 
   enum Level {recruit, basic, master, grandmaster, godtier}
   enum WeaponType {range, melee, magic}
+  enum PlayerState {neutral, panic, attack}
 
   abstract class Entity
     attributes
@@ -16,6 +17,7 @@ model ourFPS
       level: Level
       xPosition: Integer
       yPosition: Integer
+      state: PlayerState init = PlayerState::neutral
     operations
       attack(target:Entity)
         begin
@@ -26,18 +28,38 @@ model ourFPS
           self.xPosition := self.xPosition + dx;
           self.yPosition := self.yPosition + dy;
         end
-      seePlayer(player:Player)
+      seePlayer(entity:Entity)
         begin
-          insert (self, player) into enemiesAssociation;
+          insert (self, entity) into enemiesAssociation;
         end
-      loosePlayer(player:Player)
+      loosePlayer(entity:Entity)
         begin
-          delete (self, player) from enemiesAssociation;
+          delete (self, entity) from enemiesAssociation;
         end
       recieveDamage(damage: Integer)
         begin
           self.health := self.health - damage;
         end
+    statemachines
+      psm PlayerState
+        states
+          startup:initial
+          neutral [state = PlayerState::neutral]
+          attack [state = PlayerState::attack]
+          panic [state = PlayerState::panic]
+          death [health <= 0]
+          -- find final state
+        transitions
+          startup -> neutral { create }
+          -- if our weapon is better than opponent's, we attack
+          neutral -> attack { seePlayer() [self.enemies1.weapon.damage->sum() < self.weapon.damage] }
+          neutral -> panic { seePlayer() [self.enemies1.weapon.damage->sum() >= self.weapon.damage] }
+          attack -> neutral { loosePlayer() [self.enemies1->size() = 0] }
+          panic -> neutral { loosePlayer() [self.enemies1->size() = 0] }
+          attack -> death { recieveDamage() [health <= 0] }
+          panic -> death { recieveDamage() [health <= 0] }
+        end
+
   end
 
   class Player < Entity
