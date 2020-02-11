@@ -6,6 +6,7 @@
 model ourFPS
 
   enum Level {recruit, basic, master, grandmaster, godtier}
+  enum WeaponType {range, melee, magic}
 
   abstract class Entity
     attributes
@@ -16,11 +17,32 @@ model ourFPS
       xPosition: Integer
       yPosition: Integer
     operations
-      attack(target:entity)
-      moveX(speed: Integer)
-      moveY(speed: Integer)
-  class player < entity
+      attack(target:Entity)
+        begin
+          target.recieveDamage(this.weapon.damage);
+        end
+      move(dx: Integer, dy: Integer)
+        begin
+          this.xPosition := xPosition + dx;
+          this.yPosition := yPosition + dy;
+        end
+      seePlayer(player:Player)
+        begin
+          insert (self, player) into enemies;
+        end
+      loosePlayer(player:Player)
+        begin
+          delete (self, player) into enemies;
+        end
+      recieveDamage(damage: Integer)
+        begin
+          this.health := this.health - damage;
+        end
+
+  class Player < Entity
     attributes
+    operations
+  end
 
 
   class NonPlayableCharacter < Entity
@@ -28,8 +50,20 @@ model ourFPS
     operations
   end
 
+  class Weapon
+    attributes
+      name: String
+      damage: Integer
+      type: WeaponType
+  end
+
 -- associations
 association enemies between
-  [0..*] Player role enemies
-  [0..*] NonPlayableCharacter role enemies
+  Player[0..*] role enemies
+  NonPlayableCharacter[0..*] role enemies
+end
+
+association entityWeapon between
+  Entity[1] role entity
+  Weapon[1] role weapon
 end
