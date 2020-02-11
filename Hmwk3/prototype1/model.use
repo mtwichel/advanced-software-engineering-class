@@ -7,12 +7,20 @@ model ourFPS
 
   enum Level {recruit, basic, master, grandmaster, godtier}
 
-  class Entity
+  abstract class Entity
     attributes
       health: Integer
       name: String
+      speed: Integer
+      level: Level
+      xPosition: Integer
+      yPosition: Integer
     operations
-  end
+      attack(target:entity)
+      moveX(speed: Integer)
+      moveY(speed: Integer)
+  class player < entity
+    attributes
 
 
   class NonPlayableCharacter < Entity
