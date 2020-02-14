@@ -13,15 +13,13 @@ model ourFPS
     attributes
       health: Integer
       name: String
-      speed: Integer
       level: Level
       xPosition: Integer
       yPosition: Integer
-      state: PlayerState init = PlayerState::neutral
     operations
       attack(target:Entity)
         begin
-          target.recieveDamage(self.weapon.damage);
+          target.recieveDamage(self.weapon.damage, self);
         end
       move(dx: Integer, dy: Integer)
         begin
@@ -30,34 +28,50 @@ model ourFPS
         end
       seePlayer(entity:Entity)
         begin
-          insert (self, entity) into enemiesAssociation;
+          if not self.attacker->includes(entity)
+          then
+            insert (self, entity) into enemiesAssociation;
+            entity.seePlayer(self)
+          end
         end
       loosePlayer(entity:Entity)
         begin
           delete (self, entity) from enemiesAssociation;
         end
-      recieveDamage(damage: Integer)
+      recieveDamage(damage: Integer, entity:Entity)
         begin
           self.health := self.health - damage;
+
+          if self.health < 0
+          then
+            delete (entity, self) from enemiesAssociation;
+          end
         end
     statemachines
       psm PlayerState
         states
           startup:initial
-          neutral [state = PlayerState::neutral]
-          attack [state = PlayerState::attack]
-          panic [state = PlayerState::panic]
+          neutral
+          attack
+          panic
           death [health <= 0]
           -- find final state
         transitions
           startup -> neutral { create }
           -- if our weapon is better than opponent's, we attack
-          neutral -> attack { seePlayer() [self.enemies1.weapon.damage->sum() < self.weapon.damage] }
-          neutral -> panic { seePlayer() [self.enemies1.weapon.damage->sum() >= self.weapon.damage] }
-          attack -> neutral { loosePlayer() [self.enemies1->size() = 0] }
-          panic -> neutral { loosePlayer() [self.enemies1->size() = 0] }
+          neutral -> attack { seePlayer() [self.attacker.weapon.damage->sum() < self.weapon.damage] }
+          attack -> attack { recieveDamage() [health > 0] }
+          panic -> panic { recieveDamage() [health > 0] }
+          neutral -> panic { seePlayer() [self.attacker.weapon.damage->sum() >= self.weapon.damage] }
+          attack -> neutral { loosePlayer() [self.attacker->size() = 0] }
+          panic -> neutral { loosePlayer() [self.attacker->size() = 0] }
           attack -> death { recieveDamage() [health <= 0] }
           panic -> death { recieveDamage() [health <= 0] }
+          attack -> neutral { attack() [self.defender->size() = 0] }
+          panic -> neutral { attack() [self.defender->size() = 0] }
+          attack -> attack { attack() [self.defender->size() <> 0] }
+          panic -> panic { attack() [self.defender->size() <> 0] }
+          
         end
 
   end
@@ -82,8 +96,8 @@ model ourFPS
 
 -- associations
 association enemiesAssociation between
-  Entity[0..*] role enemies1
-  Entity[0..*] role enemies2
+  Entity[0..*] role attacker
+  Entity[0..*] role defender
 end
 
 association entityWeapon between
