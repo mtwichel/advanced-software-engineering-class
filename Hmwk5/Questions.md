@@ -45,7 +45,7 @@
 *(d) Consider the smiple path [3,2,4,5,6] and test path [1,2,3,2,4,6,1,2,4,5,6,1,7]. Does the test path tour the simple path directly? With a sidetrip? if so, write down the sidetrip.*
 *(e) List the test requirements for Node Coverage, Edge Coverage, and Prime Path Coverage on the graph.*
 *(f) List test paths from the given set that achieve Node Coverage but not Edge Coverage on the graph.*
-*(g) List test paths fro mthe given set that achieve Edge Coverage but not Prime Path Coverage on the graph.*
+*(g) List test paths from the given set that achieve Edge Coverage but not Prime Path Coverage on the graph.*
 
 (a) See "Question 5 Model.png"
 (b) [ (1,2,3), (2,3,2), (3,2,3), (3,2,4), (1,2,4), (2,4,5), (2,4,6), (4,5,6), (4,6,1), (5,6,1), (6,1,7), (6,1,2) ]
@@ -53,7 +53,7 @@
 (d) It doesn't tour the path directly, but it does tour the path with the sidetrip [6,1,2,4]
 (e)
     Node coverage: visit nodes 1,2,3,4,5,6, and 7.
-    Edge coverage: travel paths {(1,2), (1,7), (2,3), (2,4), (3,2), (4,5), (4,6), (5,6), (6,1)}.
-    Prime Path Coverage: {[3,2,3], [1,2,3]} //continue
+    Edge coverage: travel edges: {(1,2), (1,7), (2,3), (2,4), (3,2), (4,5), (4,6), (5,6), (6,1)}.
+    Prime Path Coverage: tour all paths: {[2, 3, 2], [3, 2, 3], [1, 2, 4, 6, 1], [2, 4, 6, 1, 2], [4, 6, 1, 2, 3], [4, 6, 1, 2, 4], [6, 1, 2, 4, 6], [1, 2, 4, 5, 6, 1], [2, 4, 5, 6, 1, 2], [3, 2, 4, 6, 1, 7], [4, 5, 6, 1, 2, 3], [4, 5, 6, 1, 2, 4], [5, 6, 1, 2, 4, 5], [6, 1, 2, 4, 5, 6], [3, 2, 4, 5, 6, 1, 7]}
 (f) [1,2,3,2,4,5,6,1,7]
-(g) // answer after finishing part e
+(g) [1,2,3,2,4,5,6,1,7], [1,2,3,2,4,6,1,7]
