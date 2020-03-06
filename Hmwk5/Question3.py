@@ -79,22 +79,12 @@ def is_subpath(this_path, other_path):
     return flag
 
 
-# simple_paths = find_simple_paths(
-#     nodes=['0','1','2','3','4','5','6'],
-#     edges=[('0','1'), ('0','2'), ('1','2'), ('2','3'), ('2','4'), ('3','6'), ('4','6'), ('4','5'), ('5','4')],
-#     starting_node='0',
-#     ending_node='6'
-# )
-
-
-# print(find_prime_paths(simple_paths=simple_paths))
-
-
 simple_paths = find_simple_paths(
-    nodes=[1, 2, 3, 4, 5, 6, 7],
-    edges=[(1,2), (1,7), (2,3), (2,4), (3,2), (4,5), (4,6), (5,6), (6,1)],
-    starting_node=1,
-    ending_node=7
+    nodes=['0','1','2','3','4','5','6'],
+    edges=[('0','1'), ('0','2'), ('1','2'), ('2','3'), ('2','4'), ('3','6'), ('4','6'), ('4','5'), ('5','4')],
+    starting_node='0',
+    ending_node='6'
 )
+
 
 print(find_prime_paths(simple_paths=simple_paths))

@@ -3,7 +3,7 @@
 
 *How else could we compare test criteria besides subsumption?*
 
-// our answer here
+We could compare test criteria with looking at specific functions each set of criteria perform. For example, DU pair coverage tests the flow of variable values, whereas edge coverage doesn't consider that. Occasionally, Specific 
 
 ## Exercises Section 7.2.2 pg. 122
 
@@ -15,15 +15,15 @@
 *N<sub>f</sub>={4}*
 *E = {(1,2), (2,3), (3,2), (2,4)}*
 
-*(a) Draw the graph.*
-*(b) If possible, list test paths that achieve Node Coverage, but not Edge Coverage. If not possible, explain why not.*
-*(c) If possible, list test paths that achieve Edge Coverage, but not Edge-Pair Coverage. If not possible, explain why not.*
-*(d) List test paths that achieve Edge-Pair Coverage.*
+*a) Draw the graph.*
+*b) If possible, list test paths that achieve Node Coverage, but not Edge Coverage. If not possible, explain why not.*
+*c) If possible, list test paths that achieve Edge Coverage, but not Edge-Pair Coverage. If not possible, explain why not.*
+*d) List test paths that achieve Edge-Pair Coverage.*
 
 (a) See "Question 4 Model.png"
 (b) This is not possible because to get to node 3, you have to take both edge (2,3) and then (3,2). The only other edges are covered through the normal tavel of the program.
-(c) This is also not possible because the only real paths you can make are [1,2,3,2,4] and [1,2,4]. If you take the second, you skip edges (3,2) and (2,3). If you take the first, you cover all edge pairs.
-(d) [1,2,3,2,4]
+(c) [1,2,3,2,4]
+(d) [1,2,3,2,3,2,4], [1,2,4]
 
 
 ### Question 5 (14 pts)
