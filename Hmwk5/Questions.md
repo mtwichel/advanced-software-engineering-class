@@ -3,7 +3,9 @@
 
 *How else could we compare test criteria besides subsumption?*
 
-We could compare test criteria with looking at specific functions each set of criteria perform. For example, DU pair coverage tests the flow of variable values, whereas edge coverage doesn't consider that. Occasionally, Specific 
+We could compare test criteria with looking at specific functions each set of criteria perform. For example, DU pair coverage tests the flow of variable values, whereas edge coverage doesn't consider that. 
+
+We also could compare test criteria based on the functionality that each test case would be covering. Some path might be a path that a client really would never see so it's not entirely practical. In that case, it sort of aligns with the SPC coverage criterion we went over that doesn't fit within the subsumption hierarchy. You could compare multiple SPCs by comparing what functionality in the code they test OR the resources they would each take to test. 
 
 ## Exercises Section 7.2.2 pg. 122
 
